@@ -3,7 +3,7 @@ import { FaEdit } from 'react-icons/fa';
 import { FaDeleteLeft } from 'react-icons/fa6';
 import { Button } from 'antd';
 import { GrAdd } from "react-icons/gr";
-import { GrFormSubtract } from "react-icons/gr";
+import { useNavigate } from 'react-router-dom';
 
 const { Column, ColumnGroup } = Table;
 
@@ -44,14 +44,16 @@ const data: DataType[] = [
 ];
 
 export default function Utenti() {
+  const navigate = useNavigate();
+
   return (
     <div className="utenti">
       <h1>Utenti</h1>
       
 
       <div className='flex gap-2 justify-end mr-2 mb-2'>
-       <Button className='bg-blu-500'> <GrAdd/> </Button>
-       <Button > <GrFormSubtract/> </Button>
+       <Button className='bg-blu-500' onClick={() => navigate('/test')}> <GrAdd/> </Button>
+      
       </div>
 
       <Table<DataType> dataSource={data.concat(data2)}>
@@ -89,7 +91,7 @@ export default function Utenti() {
           key="funzioni"
           render={(_: any, _record: DataType) => (
             <Space size="middle">
-              <button> <FaEdit style={{ color: 'green', fontSize: '20px' }} /></button>
+              <button> <FaEdit style={{ color: 'green', fontSize: '20px' }} onClick={() => navigate('/pagin1')}/></button>
            
             <FaDeleteLeft style={{ color: 'red', fontSize: '20px' }} />
             
