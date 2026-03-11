@@ -1,6 +1,8 @@
 //definizione dei metodi di inserimento / modifica / cancellazione / visualizzazione degli utenti
 import type { Request, Response, NextFunction } from 'express';
-import { utenti } from '../models/utente.js';
+import { db } from '../database/db.js';
+import type { Utente } from '../models/utente.js';
+
 
 // Create an item
 /*export const createItem = (req: Request, res: Response, next: NextFunction) => {
@@ -15,11 +17,16 @@ import { utenti } from '../models/utente.js';
 };*/
 
 // Read all items
-export const getUtenti = (req: Request, res: Response, next: NextFunction) => {
+export const getUtenti= async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    res.json(utenti);
+      const [rows] = await db.query<Utente[]>("SELECT * FROM utente");
+      res.json(rows);
   } catch (error) {
-    next(error);
+      next(error);
   }
 };
 

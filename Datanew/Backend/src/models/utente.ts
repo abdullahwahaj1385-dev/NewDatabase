@@ -1,11 +1,11 @@
-export interface Utente {
-    Nome : string;
-    Cognome : string;
-    dataNascita : Date;
-    eta : number;
-    email : string;
-    Address : string;
-    telefono : string;
-}
+import type { RowDataPacket } from"mysql2";
 
-export let utenti : Utente[] = [];
+export interface Utente extends RowDataPacket {
+  Nome: string;
+  Cognome: string;
+  dataNascita: Date;
+  eta: number;
+  email: string;
+  Address: string;
+  telefono: string;
+}
