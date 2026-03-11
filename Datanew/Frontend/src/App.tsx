@@ -15,7 +15,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/utenti" element={<Utenti />} />
-         <Route path="/test" element={<Test />} />       {/* nuova route */}
+        <Route path="/test" element={<Test />} />       {/* nuova route */}
         <Route path="/pagin1" element={<Pagin1 />} />
       </Routes>
     </Router>

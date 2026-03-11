@@ -17,7 +17,7 @@ import type { Utente } from '../models/utente.js';
 };*/
 
 // Read all items
-export const getUtenti= async (
+export const getUtenti = async (
   req: Request,
   res: Response,
   next: NextFunction

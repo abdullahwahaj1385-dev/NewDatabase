@@ -4,47 +4,51 @@ import { FaDeleteLeft } from 'react-icons/fa6';
 import { Button } from 'antd';
 import { GrAdd } from "react-icons/gr";
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import type { Utente } from '../lib/types/type';
 
 const { Column, ColumnGroup } = Table;
 
-interface DataType {
-  key: React.Key;
-  firstName: string;
-  lastName: string;
-  sesso: string;
-  dataNascita: number;
-  email: string;
-  address: string;
-  tags: string[];
-}
 
-const data: DataType[] = [
-  {
-    key: '1',
-    firstName: 'Abdullah',
-    lastName: 'Wahaj',
-    sesso: 'M',
-    dataNascita: 69,
-    email: 'abdu@123.gmail.com',
-    address: 'vial alla stazione 12, roma',
-    tags: [''],
-  },
-  ];
-  const data2: DataType[] = [
-  {
-    key: '2',
-    firstName: 'Alex',
-    lastName: 'Napolitano',
-    sesso: 'M',
-    dataNascita: 77,
-    email: '',
-    address: '',
-    tags: [''],
-  },
-];
-
-export default function Utenti() {
+export default function UtentiPage() {
   const navigate = useNavigate();
+  const [users, setUsers] = useState<Utente[]>([]);
+
+  useEffect(() => {
+  const fetchData = async () => {
+    const users = await getUsers();
+    console.log(users);
+
+    const utenti = users.map((user: Utente) => ({
+      firstName: user.Nome,
+      lastName: user.Cognome,
+      sesso: user.sesso,  
+      dataNascita: user.dataNascita,
+      email: user.email,
+      address: user.Address,
+      telefono: user.telefono,
+    }));
+     
+    setUsers(utenti);
+  };
+  fetchData();
+}, []);
+
+//funzione di fetch da backend per ottenere gli utenti e visualizzarli in una tabella con possibilità di modifica e cancellazione
+const getUsers = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/utente');
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('There was a problem with the fetch operation:', error);
+    return [];
+  }
+  }
+
 
   return (
     <div className="utenti">
@@ -56,7 +60,7 @@ export default function Utenti() {
       
       </div>
 
-      <Table<DataType> dataSource={data.concat(data2)}>
+      <Table<Utente> dataSource={users} rowKey="id">
         <ColumnGroup title="" >
           <Column title="Nome" dataIndex="firstName" key="firstName" />
           <Column title="Cognome" dataIndex="lastName" key="lastName" />
@@ -66,30 +70,11 @@ export default function Utenti() {
         <Column title="Address" dataIndex="address" key="address" />
         </ColumnGroup>
         
-        <Column
-          title="Tags"
-          dataIndex="tags"
-          key="tags"
-          render={(tags: string[]) => (
-            <>
-              {tags.map((tag) => {
-                let color = tag.length > 5 ? 'geekblue' : 'green';
-                if (tag === 'loser') {
-                  color = 'volcano';
-                }
-                return (
-                  <Tag color={color} key={tag}>
-                    {tag.toUpperCase()}
-                  </Tag>
-                );
-              })}
-            </>
-          )}
-        />
+        
         <Column
           title="Funzioni"
           key="funzioni"
-          render={(_: any, _record: DataType) => (
+          render={(_: any, _record: Utente) => (
             <Space size="middle">
               <button> <FaEdit style={{ color: 'green', fontSize: '20px' }} onClick={() => navigate('/pagin1')}/></button>
            
@@ -101,5 +86,6 @@ export default function Utenti() {
       </Table>
     </div>
   );
-}
 
+
+}

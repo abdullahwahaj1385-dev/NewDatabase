@@ -1,4 +1,5 @@
 export interface Utente {
+    id: number;
     Nome : string;
     Cognome : string;
     dataNascita : Date;
@@ -6,4 +7,5 @@ export interface Utente {
     email : string;
     Address : string;
     telefono : string;
+    sesso: string
 }
