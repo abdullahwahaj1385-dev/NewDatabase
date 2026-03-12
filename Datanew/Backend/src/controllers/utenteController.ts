@@ -15,6 +15,38 @@ import type { Utente } from '../models/utente.js';
     next(error);
   }
 };*/
+export const insertUtente = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { Nome, Cognome, Data_Nascita, Email, Numero_telefono, Sesso } = req.body;
+
+    const query = `
+      INSERT INTO utente (Nome, Cognome, Data_Nascita, Email, Numero_telefono, sesso)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `;
+
+    const [result] = await db.execute(query, [
+      Nome,
+      Cognome,
+      Data_Nascita,
+      Email,
+      Numero_telefono,
+      Sesso
+    ]);
+
+    res.status(201).json({
+      id: (result as any).insertId,
+      Nome,
+      Cognome,
+      Data_Nascita,
+      Email,
+      Numero_telefono,
+      Sesso
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: "Errore nella creazione utente", error });
+  }
+};
 
 // Read all items
 export const getUtenti = async (

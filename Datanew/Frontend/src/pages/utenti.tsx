@@ -52,8 +52,6 @@ const getUsers = async () => {
 
   return (
     <div className="utenti">
-      <h1>Utenti</h1>
-      
 
       <div className='flex gap-2 justify-end mr-2 mb-2'>
        <Button className='bg-blu-500' onClick={() => navigate('/test')}> <GrAdd/> </Button>
